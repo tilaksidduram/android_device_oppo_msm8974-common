@@ -14,6 +14,9 @@
 # limitations under the License.
 #
 
+# inherit from Oppo common
+-include device/oppo/common/BoardConfigCommon.mk
+
 # Include path
 TARGET_SPECIFIC_HEADER_PATH := device/oppo/msm8974-common/include
 
