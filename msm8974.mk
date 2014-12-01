@@ -224,6 +224,14 @@ endif
 PRODUCT_PROPERTY_OVERRIDES +=
     bluetooth.hfp.client=1
 
+# Chromecast support
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/prebuilt/common/init.d/69chromecast:system/etc/init.d/69chromecast
+
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.enable.chromecast.mirror=true
+
 # System properties
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.hwc.mdpcomp.enable=true \
