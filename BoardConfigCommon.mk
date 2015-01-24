@@ -42,11 +42,9 @@ TARGET_USE_QCOM_BIONIC_OPTIMIZATION := true
 TARGET_BOARD_INFO_FILE ?= device/oppo/msm8974-common/board-info.txt
 
 # Kernel
-BOARD_CUSTOM_BOOTIMG_MK := device/oppo/msm8974-common/mkbootimg.mk
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_SEPARATED_DT := true
-BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x02000000 --tags_offset 0x01e00000
 TARGET_KERNEL_SOURCE := kernel/oneplus/msm8974
 TARGET_KERNEL_ARCH := arm
 
