@@ -150,8 +150,6 @@ TARGET_LDPRELOAD := libNimsWrap.so
 endif
 endif
 
-WITH_DEXPREOPT := true
-
 # SELinux policies
 # qcom sepolicy
 include device/qcom/sepolicy/sepolicy.mk
