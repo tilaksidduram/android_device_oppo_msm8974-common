@@ -221,7 +221,6 @@ PRODUCT_PROPERTY_OVERRIDES +=
     bluetooth.hfp.client=1
 
 # Chromecast support
-
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilt/common/init.d/69chromecast:system/etc/init.d/69chromecast
 
@@ -248,6 +247,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.qualcomm.perf.cores_online=2 \
     ro.vendor.extension_library=libqti-perfd-client.so \
     ro.telephony.call_ring.multiple=0
+
+#Optimal dex2oat threads for faster app installation
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.sys.fw.dex2oat_thread_count=5
 
 # Permissions
 PRODUCT_COPY_FILES += \
