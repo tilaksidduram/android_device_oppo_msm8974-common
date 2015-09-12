@@ -14,11 +14,7 @@
 # limitations under the License.
 #
 
-ifneq ($(QCPATH),)
-$(call inherit-product-if-exists, $(QCPATH)/common/config/device-vendor.mk)
-endif
-
-# overlays
+# Overlays
 DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 
 # Config scripts
@@ -32,17 +28,15 @@ PRODUCT_PACKAGES += \
     init.recovery.qcom.rc \
     ueventd.qcom.rc
 
+# ANT+
+PRODUCT_PACKAGES += \
+    AntHalService \
+    com.dsi.ant.antradio_library \
+    libantradio
+
 # Audio
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/audio_effects.conf:system/vendor/etc/audio_effects.conf \
-    $(LOCAL_PATH)/audio/MaxxAudio/MaxxAudioFX.apk:system/priv-app/MaxxAudioFX.apk \
-    $(LOCAL_PATH)/audio/MaxxAudio/lib/libMA3-processcode-Coretex_A9.so:system/vendor/lib/libMA3-processcode-Coretex_A9.so \
-    $(LOCAL_PATH)/audio/MaxxAudio/lib/libMA3-processcode-Qualcomm.so:system/vendor/lib/libMA3-processcode-Qualcomm.so \
-    $(LOCAL_PATH)/audio/MaxxAudio/lib/soundfx/libmaxxeffect-cembedded.so:system/vendor/lib/soundfx/libmaxxeffect-cembedded.so \
-    $(LOCAL_PATH)/audio/MaxxAudio/lib/soundfx/libqcbassboost.so:system/vendor/lib/soundfx/libqcbassboost.so \
-    $(LOCAL_PATH)/audio/MaxxAudio/lib/soundfx/libqcreverb.so:system/vendor/lib/soundfx/libqcreverb.so \
-    $(LOCAL_PATH)/audio/MaxxAudio/lib/soundfx/libqcvirt.so:system/vendor/lib/soundfx/libqcvirt.so \
-    $(LOCAL_PATH)/audio/MaxxAudio/waves/default.mps:system/etc/waves/default.mps \
     $(LOCAL_PATH)/audio/acdb/MTP_Bluetooth_cal.acdb:system/etc/acdbdata/MTP/MTP_Bluetooth_cal.acdb \
     $(LOCAL_PATH)/audio/acdb/MTP_General_cal.acdb:system/etc/acdbdata/MTP/MTP_General_cal.acdb \
     $(LOCAL_PATH)/audio/acdb/MTP_Global_cal.acdb:system/etc/acdbdata/MTP/MTP_Global_cal.acdb \
@@ -79,6 +73,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
     audio.offload.pcm.16bit.enable=true \
     audio.offload.pcm.24bit.enable=true
 
+# Bluetooth
+PRODUCT_PROPERTY_OVERRIDES +=
+    bluetooth.hfp.client=1
+
 # Charger
 PRODUCT_PACKAGES += \
     charger_res_images
@@ -107,10 +105,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/gps/quipc.conf:system/etc/quipc.conf \
     $(LOCAL_PATH)/gps/sap.conf:system/etc/sap.conf
 
-# Lights
-PRODUCT_PACKAGES += \
-    lights.msm8974
-
 # IO Scheduler
 PRODUCT_PROPERTY_OVERRIDES += \
     sys.io.scheduler=bfq
@@ -118,6 +112,14 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # IPC router config
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/sec_config:system/etc/sec_config
+
+# Keystore
+PRODUCT_PACKAGES += \
+    keystore.msm8974
+
+# Lights
+PRODUCT_PACKAGES += \
+    lights.msm8974
 
 # Media profile
 PRODUCT_COPY_FILES += \
@@ -158,10 +160,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     power.msm8974
 
-# Keystore
-PRODUCT_PACKAGES += \
-    keystore.msm8974
-
 # Thermal config
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/thermal-engine.conf:system/etc/thermal-engine-8974.conf
@@ -195,43 +193,18 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     ebtables \
     ethertypes \
-    curl \
     libnl_2 \
     libbson \
     libcnefeatureconfig \
     libtinyxml \
     libxml2
 
-# ANT+
-PRODUCT_PACKAGES += \
-    AntHalService \
-    com.dsi.ant.antradio_library \
-    libantradio
-
-# Set default USB interface
+# USB
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+    persist.sys.isUsbOtgEnabled=true \
     persist.sys.usb.config=mtp
 
-# Enable USB OTG interface
-PRODUCT_PROPERTY_OVERRIDES += \
-    persist.sys.isUsbOtgEnabled=true
-
-# proprietary wifi display, if available
-ifneq ($(QCPATH),)
-PRODUCT_BOOT_JARS += WfdCommon
-endif
-
-# Enable Bluetooth HFP service
-PRODUCT_PROPERTY_OVERRIDES +=
-    bluetooth.hfp.client=1
-
-# Chromecast support
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/prebuilt/common/init.d/69chromecast:system/etc/init.d/69chromecast
-
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.enable.chromecast.mirror=true
-
+# System properties
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     camera2.portability.force_api=1
 
@@ -252,10 +225,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.qualcomm.perf.cores_online=2 \
     ro.vendor.extension_library=libqti-perfd-client.so \
     ro.telephony.call_ring.multiple=0
-
-#Optimal dex2oat threads for faster app installation
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.sys.fw.dex2oat_thread_count=5
 
 # Permissions
 PRODUCT_COPY_FILES += \
@@ -282,7 +251,7 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
     frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml
 
-# call the proprietary setup
+# Call the proprietary setup
 $(call inherit-product-if-exists, vendor/oppo/msm8974-common/msm8974-common-vendor.mk)
 
 # Inherit from oppo-common
